@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "author": "Francesco",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": -4.9,
+      "left": -43.4,
+      "attrs": { "builder": "rust-std-esp" }
+    },
+    { "type": "board-epaper-2in9", "id": "epd1", "top": 135, "left": 138.48, "attrs": {} },
+    {
+      "type": "wokwi-logic-analyzer",
+      "id": "logic1",
+      "top": -134.05,
+      "left": 259.2,
+      "attrs": { 
+        "channelNames": ["MOSI", "CLK", "DC", "CS"] 
+      }
+    }
+  ],
+  "connections": [
+    [ "esp:TX0", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX0", "$serialMonitor:TX", "", [] ],
+    [ "epd1:VCC", "esp:VIN", "violet", [ "h-28.8", "v134.33", "h-163.2", "v-48" ] ],
+    [ "epd1:GND", "esp:GND.2", "gray", [ "h-19.2", "v134.33", "h-182.4", "v-67.1" ] ],
+    [ "epd1:DIN", "esp:D23", "gray", [ "h-28.8", "v-57.67", "h-48", "v19.1" ] ],
+    [ "epd1:CLK", "esp:D18", "black", [ "h-38.4", "v28.73" ] ],
+    [ "epd1:BUSY", "esp:D4", "violet", [ "h-67.2", "v105.5" ] ],
+    [ "epd1:RST", "esp:D21", "blue", [ "h-57.6", "v38.8" ] ],
+    [ "epd1:DC", "esp:D22", "red", [ "h-28.8", "v0.3" ] ],
+    [ "epd1:CS", "esp:D5", "green", [ "h-48", "v48" ] ],
+    [ "esp:D23", "logic1:D0", "gray", [ "h-19.5", "v-28.7" ] ],
+    [ "esp:D18", "logic1:D1", "black", [ "h-29.1", "v-192" ] ],
+    [ "esp:D22", "logic1:D2", "red", [ "h-38.7", "v-134.7" ] ],
+    [ "esp:D5", "logic1:D3", "green", [ "h-57.9", "v-172.8" ] ]
+  ],
+  "serialMonitor": { "display": "terminal" },
+  "dependencies": {}
+}

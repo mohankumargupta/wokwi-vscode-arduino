@@ -1,0 +1,5 @@
+[wokwi]
+version = 1
+firmware = 'build/build_waveshare/waveshare_epaper.ino.bin'
+elf = 'build/build_waveshare/waveshare_epaper.ino.elf'
+
