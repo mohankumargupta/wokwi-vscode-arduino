@@ -39,6 +39,7 @@
         "-IC:\\Users\\mohan\\AppData\\Local\\Arduino15\\internal\\esp32_esp32-arduino-libs_idf-release_v5.5-b66b5448-v1_973dafafc3\\esp32/qio_qspi/include",
         "-IC:\\Users\\mohan\\AppData\\Local\\Arduino15\\internal\\esp32_esp32_3.3.0_9dd82b4292c1320c\\cores\\esp32",
         "-IC:\\Users\\mohan\\AppData\\Local\\Arduino15\\internal\\esp32_esp32_3.3.0_9dd82b4292c1320c\\variants\\esp32",
+        "-IC:\\Users\\mohan\\AppData\\Local\\Arduino15\\internal\\esp32_esp32_3.3.0_9dd82b4292c1320c\\libraries\\SPI\\src",
         "@C:\\Users\\mohan\\Developer\\arduino\\wokwi-vscode-arduino\\waveshare_epaper\\build\\build_waveshare/build_opt.h",
         "@C:\\Users\\mohan\\Developer\\arduino\\wokwi-vscode-arduino\\waveshare_epaper\\build\\build_waveshare/file_opts",
         "C:\\Users\\mohan\\Developer\\arduino\\wokwi-vscode-arduino\\waveshare_epaper\\build\\build_waveshare\\sketch\\waveshare_epaper.ino.cpp",
