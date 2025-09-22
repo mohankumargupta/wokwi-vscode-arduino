@@ -1,19 +1,27 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#define BUSY_PIN 4
-#define RESET_PIN 21
-#define DC_PIN 22
+#define EPD_WIDTH 128
+#define EPD_HEIGHT 296
+
+#define BUSY_PIN 4     // esp:D4 -> epd1:BUSY
+#define RESET_PIN 21   // esp:D21 -> epd1:RST
+#define DC_PIN 22      // esp:D22 -> epd1:DC
+#define CS_PIN 5       // esp:D5 -> epd1:CS
+#define MOSI_PIN 23    // esp:D23 -> epd1:DIN
+#define SCK_PIN 18     // esp:D18 -> epd1:CLK
 
 // SPI.begin();
 // SPI.beginTransaction(SPISettings(2000000, MSBFIRST, SPI_MODE0));
 
 void setup() {
-    pinMode(SS, OUTPUT);
-    SPI.begin(SCK, -1, MOSI, SS);
+    pinMode(CS_PIN, OUTPUT);
     pinMode(BUSY_PIN, INPUT);
     pinMode(RESET_PIN, OUTPUT);
     pinMode(DC_PIN, OUTPUT);
+    SPI.setFrequency(250000);
+    SPI.begin(SCK_PIN, -1, MOSI_PIN, CS_PIN);
+
     
     //hardware reset
     digitalWrite(RESET_PIN, HIGH);
@@ -29,7 +37,7 @@ void setup() {
 
     //sendCommand(0x01) DRIVER OUTPUT CONTROL
     send_command(0x01);
-    uint8_t driver_output_data[] = {0xFF, 0x00, 0xFF};
+    uint8_t driver_output_data[] = {0x27, 0x01, 0x00};
     send_data(driver_output_data, sizeof(driver_output_data)); 
 
     //sendCommand(0x11) DATA ENTRY MODE
@@ -92,12 +100,12 @@ void loop() {
 
 void spiSend(uint8_t dcLevel, const uint8_t* buffer, size_t length) {
   digitalWrite(DC_PIN, dcLevel);
-  digitalWrite(SS, LOW);
+  digitalWrite(CS_PIN, LOW);
 
   // Actually transmit
   SPI.transfer((void*)buffer, length);
 
-  digitalWrite(SS, HIGH);
+  digitalWrite(CS_PIN, HIGH);
 }
 
 void send_command(const uint8_t cmd) {
@@ -106,4 +114,20 @@ void send_command(const uint8_t cmd) {
 
 void send_data(const uint8_t* data, size_t length) {
   spiSend(HIGH, data, length); // DC = 1 → data
+}
+
+void draw_all_black() {
+    send_command(0x4E);
+    uint8_t x_counter[] = {0x00};
+    send_data(x_counter, sizeof(x_counter));
+
+    send_command(0x4F);
+    uint8_t y_counter[] = {0x00, 0x00};
+    send_data(y_counter, sizeof(y_counter));
+
+    send_command(0x24);
+    for (int i = 0; i < (EPD_WIDTH * EPD_HEIGHT) / 8; i++) {
+        uint8_t black_data = 0x00;
+        send_data(&black_data, 1);
+    }
 }
